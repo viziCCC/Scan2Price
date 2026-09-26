@@ -28,13 +28,21 @@ exports.main = async (event = {}) => {
     if (!handler) throw new BusinessError("UNKNOWN_ACTION", "不支持的操作");
     return { success: true, data: await handler(event) };
   } catch (error) {
-    console.error(error);
+    console.error("云函数执行异常", {
+      eventType: event.type,
+      eventData: event.data,
+      errorName: error.name,
+      errorCode: error.code,
+      errorMessage: error.message,
+      stack: error.stack
+    });
     const isBusinessError = error instanceof BusinessError;
     return {
       success: false,
       error: {
         code: isBusinessError ? error.code : "INTERNAL_ERROR",
         message: isBusinessError ? error.message : "服务暂时不可用",
+        errorName: error.name || "UnknownError",
         details: isBusinessError ? error.details : null
       }
     };
