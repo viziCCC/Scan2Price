@@ -1,0 +1,79 @@
+<view class="page">
+  <view class="header">
+    <view class="title">用户管理</view>
+    <view class="subtitle">管理管理员账号与权限</view>
+  </view>
+
+  <button class="primary-button" bindtap="openCreate">添加管理员</button>
+
+  <view wx:if="{{loading}}" class="empty">加载中...</view>
+  <view wx:elif="{{items.length === 0}}" class="empty">暂无管理员账号</view>
+
+  <view wx:for="{{items}}" wx:key="openid" class="item-card">
+    <view class="item-header">
+      <view class="item-role {{item.role}}">{{item.role === 'super_admin' ? '超级管理员' : '管理员'}}</view>
+      <view class="item-status {{item.enabled ? 'enabled' : 'disabled'}}">{{item.enabled ? '已启用' : '已禁用'}}</view>
+    </view>
+    <view class="item-openid" bindtap="copyOpenId" data-openid="{{item.openid}}">
+      <text class="label">用户ID：</text>
+      <text class="openid-text">{{item.openid}}</text>
+      <text class="copy-hint">点击复制</text>
+    </view>
+    <view wx:if="{{item.remark}}" class="item-remark">备注：{{item.remark}}</view>
+    <view class="item-actions">
+      <button class="action-btn edit" bindtap="openEdit" data-openid="{{item.openid}}" data-role="{{item.role}}" data-remark="{{item.remark}}">编辑</button>
+      <button class="action-btn toggle" bindtap="toggleEnabled" data-openid="{{item.openid}}" data-enabled="{{item.enabled}}">{{item.enabled ? '禁用' : '启用'}}</button>
+      <button class="action-btn remove" bindtap="removeAdmin" data-openid="{{item.openid}}">删除</button>
+    </view>
+  </view>
+</view>
+
+<view wx:if="{{showForm}}" class="modal-overlay" bindtap="closeForm">
+  <view class="modal-content" catchtap="">
+    <view class="modal-header">
+      <text class="modal-title">{{editingOpenId ? '编辑管理员' : '添加管理员'}}</text>
+      <text class="modal-close" bindtap="closeForm">×</text>
+    </view>
+    <view class="modal-body">
+      <view class="form-field">
+        <text class="field-label">用户ID（OpenID）</text>
+        <input
+          class="field-input"
+          value="{{formData.openid}}"
+          bindinput="onFormInput"
+          data-field="openid"
+          placeholder="请输入用户ID"
+          disabled="{{!!editingOpenId}}"
+        />
+        <text wx:if="{{!editingOpenId}}" class="field-hint">请先让对方在"我的ID"页面获取并复制用户ID</text>
+      </view>
+      <view class="form-field">
+        <text class="field-label">角色</text>
+        <radio-group class="radio-group" bindchange="onRoleChange">
+          <label class="radio-item">
+            <radio value="admin" checked="{{formData.role === 'admin'}}" />
+            <text>管理员</text>
+          </label>
+          <label class="radio-item">
+            <radio value="super_admin" checked="{{formData.role === 'super_admin'}}" />
+            <text>超级管理员</text>
+          </label>
+        </radio-group>
+      </view>
+      <view class="form-field">
+        <text class="field-label">备注（可选）</text>
+        <input
+          class="field-input"
+          value="{{formData.remark}}"
+          bindinput="onFormInput"
+          data-field="remark"
+          placeholder="备注姓名或用途"
+        />
+      </view>
+    </view>
+    <view class="modal-footer">
+      <button class="modal-btn cancel" bindtap="closeForm">取消</button>
+      <button class="modal-btn confirm" bindtap="submitForm" loading="{{submitting}}">{{editingOpenId ? '保存' : '添加'}}</button>
+    </view>
+  </view>
+</view>

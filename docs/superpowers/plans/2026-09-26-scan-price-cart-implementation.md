@@ -1,10 +1,10 @@
-# 扫码查价与核价清单 Implementation Plan
+# 扫码查价与价格清单 Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** 将现有微信云开发 QuickStart 改造成商铺内部扫码查价工具，支持管理员维护自建商品库、员工连续扫码并使用临时核价清单计算总价。
+**Goal:** 将现有微信云开发 QuickStart 改造成商铺内部扫码查价工具，支持管理员维护自建商品库、员工连续扫码并使用临时价格清单计算总价。
 
-**Architecture:** 继续使用一个 `quickstartFunctions` 云函数入口，通过 `event.type` 分发到独立的权限与商品服务模块；所有管理写操作在云函数内部校验管理员 OpenID。小程序以首页、核价清单、商品管理列表和商品编辑页组成，核价清单存放在 `App.globalData` 内存中，金额统一使用整数分计算。
+**Architecture:** 继续使用一个 `quickstartFunctions` 云函数入口，通过 `event.type` 分发到独立的权限与商品服务模块；所有管理写操作在云函数内部校验管理员 OpenID。小程序以首页、价格清单、商品管理列表和商品编辑页组成，价格清单存放在 `App.globalData` 内存中，金额统一使用整数分计算。
 
 **Tech Stack:** 微信小程序原生 JavaScript/WXML/WXSS、微信云开发、`wx-server-sdk ~2.4.0`、CommonJS、Node.js 内置 `node:test` 与 `assert`。
 
@@ -15,7 +15,7 @@
 - 条形码始终按字符串处理，不能转换为数字。
 - 商品价格以整数分存储和计算，页面展示时转换为元并保留两位小数。
 - 商品数量只允许大于或等于 `1` 的整数。
-- 核价清单只存在当前小程序运行内存中，不写入 Storage 或云数据库。
+- 价格清单只存在当前小程序运行内存中，不写入 Storage 或云数据库。
 - 普通员工只可查询商品；所有管理接口必须在云函数中校验 `admins` 集合。
 - 商品不物理删除，只允许 `on_sale` 和 `off_sale` 两种状态。
 - 第一版不实现库存、订单、支付、顾客账号、第三方商品接口和管理员管理页面。
@@ -30,7 +30,7 @@
 Scan2Price/
 ├─ package.json                              # 本地纯逻辑测试入口
 ├─ tests/
-│  └─ cart.test.js                          # 核价清单纯函数测试
+│  └─ cart.test.js                          # 价格清单纯函数测试
 ├─ cloudfunctions/quickstartFunctions/
 │  ├─ index.js                              # 云函数 action 路由和统一错误返回
 │  ├─ lib/
@@ -49,12 +49,12 @@ Scan2Price/
    ├─ app.wxss                              # 全局颜色、按钮和表单基础样式
    ├─ utils/
    │  ├─ cloudApi.js                        # wx.cloud.callFunction Promise 封装
-   │  ├─ cart.js                            # 核价清单纯函数
+   │  ├─ cart.js                            # 价格清单纯函数
    │  ├─ money.js                           # 分/元显示转换
    │  └─ scan.js                            # wx.scanCode 条码结果规范化
    └─ pages/
       ├─ index/                             # 扫码查价首页（替换 QuickStart）
-      ├─ cart/                              # 临时核价清单
+      ├─ cart/                              # 临时价格清单
       ├─ products/                          # 管理员商品列表
       └─ product-edit/                      # 管理员新增/编辑商品
 ```
@@ -748,7 +748,7 @@ For an administrator receiving `PRODUCT_NOT_FOUND`, show a second action “录�
 
 - [ ] **Step 3: Implement add-to-cart and navigation**
 
-`addCurrentProduct` must call `addItem`, assign the returned array to `app.globalData.cartItems`, refresh `cartQuantity`, and show `wx.showToast({ title: "已加入核价清单" })`. Navigation uses `wx.switchTab` for `/pages/cart/index` and `wx.navigateTo` for `/pages/products/index`.
+`addCurrentProduct` must call `addItem`, assign the returned array to `app.globalData.cartItems`, refresh `cartQuantity`, and show `wx.showToast({ title: "已加入价格清单" })`. Navigation uses `wx.switchTab` for `/pages/cart/index` and `wx.navigateTo` for `/pages/products/index`.
 
 - [ ] **Step 4: Build the WXML layout**
 
@@ -758,8 +758,8 @@ The page contains, in order:
 2. Administrator-only “商品管理” link guarded by `wx:if="{{isAdmin}}"`.
 3. Large primary “扫码查价” button.
 4. Manual barcode input and query button.
-5. Query result card with name, specification/unit, barcode, `¥{{displayPrice}}`, and “加入核价清单”。
-6. A cart summary button showing `核价清单（{{cartQuantity}} 件）`.
+5. Query result card with name, specification/unit, barcode, `¥{{displayPrice}}`, and “加入价格清单”。
+6. A cart summary button showing `价格清单（{{cartQuantity}} 件）`.
 
 - [ ] **Step 5: Apply focused styles and remove QuickStart component dependency**
 
@@ -805,7 +805,7 @@ Update `app.json` pages to include `pages/cart/index`, `pages/products/index`, a
   "selectedColor": "#07c160",
   "list": [
     { "pagePath": "pages/index/index", "text": "扫码查价", "iconPath": "images/icons/home.png", "selectedIconPath": "images/icons/home-active.png" },
-    { "pagePath": "pages/cart/index", "text": "核价清单", "iconPath": "images/icons/goods.png", "selectedIconPath": "images/icons/goods-active.png" }
+    { "pagePath": "pages/cart/index", "text": "价格清单", "iconPath": "images/icons/goods.png", "selectedIconPath": "images/icons/goods-active.png" }
   ]
 }
 ```

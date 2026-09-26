@@ -3,7 +3,9 @@
     "pages/index/index",
     "pages/cart/index",
     "pages/products/index",
-    "pages/product-edit/index"
+    "pages/product-edit/index",
+    "pages/my-id/index",
+    "pages/admin-users/index"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -15,8 +17,15 @@
   "sitemapLocation": "sitemap.json",
   "style": "v2",
   "lazyCodeLoading": "requiredComponents",
-  "tabBar": { "color": "#777777", "selectedColor": "#07c160", "list": [
-    { "pagePath": "pages/index/index", "text": "扫码查价", "iconPath": "images/icons/home.png", "selectedIconPath": "images/icons/home-active.png" },
-    { "pagePath": "pages/cart/index", "text": "核价清单", "iconPath": "images/icons/goods.png", "selectedIconPath": "images/icons/goods-active.png" }
-  ] }
+  "tabBar": {
+    "custom": true,
+    "color": "#777777",
+    "selectedColor": "#07c160",
+    "list": [
+      { "pagePath": "pages/index/index", "text": "扫码查价", "iconPath": "images/icons/home.png", "selectedIconPath": "images/icons/home-active.png" },
+      { "pagePath": "pages/cart/index", "text": "价格清单", "iconPath": "images/icons/goods.png", "selectedIconPath": "images/icons/goods-active.png" },
+      { "pagePath": "pages/products/index", "text": "商品管理", "iconPath": "images/icons/products.png", "selectedIconPath": "images/icons/products-active.png" },
+      { "pagePath": "pages/admin-users/index", "text": "用户管理", "iconPath": "images/icons/users.png", "selectedIconPath": "images/icons/users-active.png" }
+    ]
+  }
 }

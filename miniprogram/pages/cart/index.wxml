@@ -1,1 +1,24 @@
-<view class="page"><button class="primary-button scan-button" bindtap="scanAndAdd">扫码添加商品</button><view wx:if="{{!items.length}}" class="empty">暂无商品，点击上方按钮开始扫码</view><view wx:for="{{items}}" wx:key="productId" class="item-card"><view class="item-name">{{item.name}}</view><view class="muted">{{item.specification}} {{item.unit}} · ¥{{item.displayPrice}}</view><view class="item-subtotal">¥{{item.displaySubtotal}}</view><view class="quantity-row"><button data-product-id="{{item.productId}}" bindtap="decreaseQuantity">−</button><text>{{item.quantity}}</text><button data-product-id="{{item.productId}}" bindtap="increaseQuantity">＋</button><button class="remove" data-product-id="{{item.productId}}" bindtap="removeItem">移除</button></view></view><view wx:if="{{items.length}}" class="summary"><view>共 {{totalQuantity}} 件</view><view class="total">¥{{displayTotal}}</view><button class="clear" bindtap="clearCart">清空清单</button></view></view>
+<view class="page">
+  <button class="primary-button scan-button" bindtap="scanAndAdd">扫码添加商品</button>
+  <view wx:if="{{!items.length}}" class="empty">暂无商品，点击上方按钮开始扫码</view>
+  <view wx:for="{{items}}" wx:key="productId" class="item-card">
+    <view class="item-name-row">
+      <text class="item-name">{{item.name}}</text>
+      <text class="item-spec"> {{item.specification}} {{item.unit}}</text>
+    </view>
+    <view class="muted">¥{{item.displayPrice}}</view>
+    <view class="item-subtotal">¥{{item.displaySubtotal}}</view>
+    <view class="quantity-row">
+      <button data-product-id="{{item.productId}}" bindtap="decreaseQuantity">−</button>
+      <text wx:if="{{editingId !== item.productId}}" class="quantity-text" data-product-id="{{item.productId}}" bindtap="editQuantity">{{item.quantity}}</text>
+      <input wx:else class="quantity-input" type="number" focus value="{{editingValue}}" bindinput="onEditingInput" bindblur="commitEditing" bindconfirm="commitEditing"/>
+      <button data-product-id="{{item.productId}}" bindtap="increaseQuantity">＋</button>
+      <button class="remove" data-product-id="{{item.productId}}" bindtap="removeItem">移除</button>
+    </view>
+  </view>
+  <view wx:if="{{items.length}}" class="summary">
+    <view>共 {{totalQuantity}} 件</view>
+    <view class="total">¥{{displayTotal}}</view>
+    <button class="clear" bindtap="clearCart">清空清单</button>
+  </view>
+</view>

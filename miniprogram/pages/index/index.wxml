@@ -1,1 +1,30 @@
-<view class="page"><view class="header-row"><view><view class="title">扫码查价</view><view class="subtitle">扫描商品条形码，快速核算价格</view></view><button wx:if="{{isAdmin}}" class="link-button" bindtap="openProductManagement">商品管理</button></view><button class="primary-button scan-button" bindtap="handleScan">扫码查价</button><view class="manual-row"><input class="barcode-input" type="number" value="{{barcodeInput}}" bindinput="onBarcodeInput" placeholder="也可以手动输入条形码"/><button class="secondary-button" bindtap="handleManualSearch">查询</button></view><view wx:if="{{loading}}" class="empty">查询中...</view><view wx:if="{{product && !loading}}" class="product-card"><view class="product-name">{{product.name}}</view><view class="muted">{{product.specification}} {{product.unit}}</view><view class="muted">条码：{{product.barcode}}</view><view class="price">¥{{displayPrice}}</view><button class="primary-button" bindtap="addCurrentProduct">加入核价清单</button></view><button class="cart-entry" bindtap="openCart">核价清单（{{cartQuantity}} 件）<text>›</text></button></view>
+<view class="page">
+  <view class="header-row">
+    <view>
+      <view class="title">扫码查价</view>
+      <view class="subtitle">扫描商品条形码，快速核算价格</view>
+    </view>
+    <view>
+      <button class="link-button" bindtap="openMyId">我的ID</button>
+    </view>
+  </view>
+  <button class="primary-button scan-button" bindtap="handleScan">扫码查价</button>
+  <view class="manual-row">
+    <input class="barcode-input" type="number" value="{{barcodeInput}}" bindinput="onBarcodeInput" placeholder="也可以手动输入条形码"/>
+    <button class="secondary-button" bindtap="handleManualSearch">查询</button>
+  </view>
+  <view wx:if="{{loading}}" class="empty">查询中...</view>
+  <view wx:if="{{product && !loading}}" class="product-card">
+    <view class="product-name-row">
+      <text class="product-name">{{product.name}}</text>
+      <text class="product-spec"> {{product.specification}} {{product.unit}}</text>
+    </view>
+    <view class="muted">条码：{{product.barcode}}</view>
+    <view class="price">¥{{displayPrice}}</view>
+    <view class="success-tip">已自动加入价格清单</view>
+  </view>
+  <button class="cart-entry" bindtap="openCart">
+    价格清单（{{cartQuantity}} 件）
+    <text>›</text>
+  </button>
+</view>

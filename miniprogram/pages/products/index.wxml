@@ -1,1 +1,21 @@
-<view class="page"><view class="search-row"><input value="{{keyword}}" bindinput="onKeywordInput" placeholder="搜索名称或条形码"/><button bindtap="search">搜索</button></view><view class="filters"><button data-status="" bindtap="setStatus">全部</button><button data-status="on_sale" bindtap="setStatus">在售</button><button data-status="off_sale" bindtap="setStatus">已下架</button></view><button class="primary-button" bindtap="scanToCreateOrEdit">扫码录入</button><button class="secondary-button" bindtap="openManualCreate">手动录入</button><view wx:for="{{items}}" wx:key="_id" class="item-card" data-id="{{item._id}}" bindtap="openEdit"><view class="name">{{item.name}}</view><view class="muted">{{item.barcode}} · {{item.specification}} {{item.unit}}</view><view class="price">¥{{item.displayPrice}}</view><view class="status">{{item.status === 'on_sale' ? '在售' : '已下架'}}</view></view></view>
+<view class="page">
+  <view class="search-row">
+    <input value="{{keyword}}" bindinput="onKeywordInput" placeholder="搜索名称或条形码"/>
+    <button bindtap="search">搜索</button>
+  </view>
+  <view class="filters">
+    <button data-status="" class="{{status === '' ? 'active' : ''}}" bindtap="setStatus">全部</button>
+    <button data-status="on_sale" class="{{status === 'on_sale' ? 'active' : ''}}" bindtap="setStatus">在售</button>
+    <button data-status="off_sale" class="{{status === 'off_sale' ? 'active' : ''}}" bindtap="setStatus">已下架</button>
+  </view>
+  <view class="action-row">
+    <button class="primary-button" bindtap="scanToCreateOrEdit">扫码录入</button>
+    <button class="secondary-button" bindtap="openManualCreate">手动录入</button>
+  </view>
+  <view wx:for="{{items}}" wx:key="_id" class="item-card" data-id="{{item._id}}" bindtap="openEdit">
+    <view class="name">{{item.name}}</view>
+    <view class="muted">{{item.barcode}} · {{item.specification}} {{item.unit}}</view>
+    <view class="price">¥{{item.displayPrice}}</view>
+    <view class="status">{{item.status === 'on_sale' ? '在售' : '已下架'}}</view>
+  </view>
+</view>

@@ -19,7 +19,11 @@ const handlers = {
   listProducts: (event) => productService.listProducts(event.data || {}),
   createProduct: (event) => productService.createProduct(event.data || {}),
   updateProduct: (event) => productService.updateProduct(event.data || {}),
-  changeProductStatus: (event) => productService.changeProductStatus(event.data || {})
+  changeProductStatus: (event) => productService.changeProductStatus(event.data || {}),
+  listAdmins: () => authService.listAdmins(),
+  createAdmin: (event) => authService.createAdmin(event.data || {}),
+  updateAdmin: (event) => authService.updateAdmin(event.data || {}),
+  removeAdmin: (event) => authService.removeAdmin(event.data || {})
 };
 
 exports.main = async (event = {}) => {
