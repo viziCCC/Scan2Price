@@ -1,7 +1,10 @@
 const { BusinessError } = require("./errors");
 
 function normalizeBarcode(value) {
-  const barcode = String(value ?? "").trim();
+  if (typeof value !== "string") {
+    throw new BusinessError("INVALID_BARCODE", "条形码必须是字符串");
+  }
+  const barcode = value.trim();
   if (!barcode) throw new BusinessError("INVALID_BARCODE", "条形码不能为空");
   if (!/^[0-9]+$/.test(barcode)) {
     throw new BusinessError("INVALID_BARCODE", "条形码只能包含数字");
@@ -11,10 +14,10 @@ function normalizeBarcode(value) {
 
 function validateProductInput(input = {}) {
   const name = String(input.name ?? "").trim();
-  const priceInCents = Number(input.priceInCents);
-  const status = input.status || "on_sale";
+  const priceInCents = input.priceInCents;
+  const status = input.status === undefined ? "on_sale" : input.status;
   if (!name) throw new BusinessError("INVALID_NAME", "商品名称不能为空");
-  if (!Number.isInteger(priceInCents) || priceInCents < 0) {
+  if (typeof priceInCents !== "number" || !Number.isInteger(priceInCents) || priceInCents < 0) {
     throw new BusinessError("INVALID_PRICE", "价格必须是非负整数分");
   }
   if (!["on_sale", "off_sale"].includes(status)) {
