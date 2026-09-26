@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test tests/validation.test.js tests/authService.test.js tests/productService.test.js"
   },
   "author": "",
   "license": "ISC",

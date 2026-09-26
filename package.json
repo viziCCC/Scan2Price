@@ -1,0 +1,7 @@
+{
+  "name": "scan2price",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/cart.test.js cloudfunctions/quickstartFunctions/tests/validation.test.js cloudfunctions/quickstartFunctions/tests/authService.test.js cloudfunctions/quickstartFunctions/tests/productService.test.js"
+  }
+}
