@@ -3,8 +3,7 @@
     "pages/index/index",
     "pages/cart/index",
     "pages/products/index",
-    "pages/product-edit/index",
-    "pages/example/index"
+    "pages/product-edit/index"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
