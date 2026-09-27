@@ -64,6 +64,10 @@ Page({
     this.setData({ showForm: false, editingOpenId: null });
   },
 
+  preventBubble() {
+    // 阻止事件冒泡，防止点击模态框内容区域时关闭弹窗
+  },
+
   onFormInput(e) {
     const { field } = e.currentTarget.dataset;
     this.setData({ [`formData.${field}`]: e.detail.value });

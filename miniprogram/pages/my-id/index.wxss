@@ -3,7 +3,7 @@ page {
 }
 
 .page {
-  padding: 48rpx 32rpx;
+  padding: 48rpx 32rpx calc(48px + env(safe-area-inset-bottom) + 32rpx);
   min-height: 100vh;
 }
 

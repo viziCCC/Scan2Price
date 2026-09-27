@@ -6,6 +6,7 @@ Page({
   async onLoad() { const app = getApp(); try { const user = app.globalData.currentUser || await app.loadCurrentUser(); if (!user.isAdmin) return wx.showModal({ title: "无权限", content: "该页面仅管理员可用", showCancel: false, success: () => wx.navigateBack() }); this.setData({ isAdmin: true }); this.loadProducts(); } catch (e) { wx.showToast({ title: e.message, icon: "none" }); } },
   onShow() { if (typeof this.getTabBar === "function" && this.getTabBar()) this.getTabBar().setData({ selected: 2 }); if (this.data.isAdmin) this.loadProducts(); },
   onKeywordInput(e) { this.setData({ keyword: e.detail.value }); },
+  clearKeyword() { this.setData({ keyword: "" }); this.loadProducts(); },
   setStatus(e) { this.setData({ status: e.currentTarget.dataset.status }); this.loadProducts(); },
   async loadProducts() { try { const data = await callCloud("listProducts", { keyword: this.data.keyword, status: this.data.status }); this.setData({ items: data.items.map((i) => ({ ...i, displayPrice: formatCents(i.priceInCents) })) }); } catch (e) { wx.showToast({ title: e.message, icon: "none" }); } },
   search() { this.loadProducts(); },

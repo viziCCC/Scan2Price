@@ -19,6 +19,54 @@
   <view wx:if="{{items.length}}" class="summary">
     <view>共 {{totalQuantity}} 件</view>
     <view class="total">¥{{displayTotal}}</view>
-    <button class="clear" bindtap="clearCart">清空清单</button>
+    <button class="calc-btn" bindtap="openCalculator">计算器</button>
+    <button class="clear" bindtap="clearCart">清空</button>
+  </view>
+
+  <!-- 计算器弹窗 -->
+  <view wx:if="{{showCalculator}}" class="calculator-modal" bindtap="closeCalculator">
+    <view class="calculator-content" catchtap="stopPropagation">
+      <view class="calculator-header">
+        <text class="calculator-title">计算器</text>
+        <text class="calculator-close" bindtap="closeCalculator">×</text>
+      </view>
+
+      <view class="calc-display">
+        <view class="calc-expression">{{calcExpression || '清单总价: ¥' + displayTotal}}</view>
+        <view class="calc-result">{{calcDisplay}}</view>
+      </view>
+
+      <view class="calc-keypad">
+        <view class="calc-row">
+          <view class="calc-key clear" bindtap="calcClear">C</view>
+          <view class="calc-key operator" bindtap="calcOperator" data-op="÷">÷</view>
+          <view class="calc-key operator" bindtap="calcOperator" data-op="×">×</view>
+          <view class="calc-key base-btn" bindtap="useBase">清单</view>
+        </view>
+        <view class="calc-row">
+          <view class="calc-key" bindtap="calcNumber" data-num="7">7</view>
+          <view class="calc-key" bindtap="calcNumber" data-num="8">8</view>
+          <view class="calc-key" bindtap="calcNumber" data-num="9">9</view>
+          <view class="calc-key operator" bindtap="calcBackspace">⌫</view>
+        </view>
+        <view class="calc-row">
+          <view class="calc-key" bindtap="calcNumber" data-num="4">4</view>
+          <view class="calc-key" bindtap="calcNumber" data-num="5">5</view>
+          <view class="calc-key" bindtap="calcNumber" data-num="6">6</view>
+          <view class="calc-key operator" bindtap="calcOperator" data-op="-">−</view>
+        </view>
+        <view class="calc-row">
+          <view class="calc-key" bindtap="calcNumber" data-num="1">1</view>
+          <view class="calc-key" bindtap="calcNumber" data-num="2">2</view>
+          <view class="calc-key" bindtap="calcNumber" data-num="3">3</view>
+          <view class="calc-key operator" bindtap="calcOperator" data-op="+">+</view>
+        </view>
+        <view class="calc-row">
+          <view class="calc-key zero" bindtap="calcNumber" data-num="0">0</view>
+          <view class="calc-key" bindtap="calcDot">.</view>
+          <view class="calc-key equal" bindtap="calcEquals">=</view>
+        </view>
+      </view>
+    </view>
   </view>
 </view>

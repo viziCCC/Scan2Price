@@ -27,6 +27,29 @@ page {
   min-height: 78rpx;
 }
 
+.input-wrap {
+  position: relative;
+}
+
+.input-wrap input {
+  padding-right: 56rpx;
+}
+
+.input-wrap .clear-btn {
+  position: absolute;
+  right: 16rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36rpx;
+  height: 36rpx;
+  line-height: 32rpx;
+  text-align: center;
+  border-radius: 50%;
+  background: #c0c4cc;
+  color: #fff;
+  font-size: 28rpx;
+}
+
 .inline {
   display: flex;
   gap: 12rpx;
@@ -51,6 +74,9 @@ page {
 .primary {
   background: #07c160;
   color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .status {
